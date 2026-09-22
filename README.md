@@ -31,15 +31,18 @@ to test/extend/change".
 
 ```
 rearchitect/
-├── .claude-plugin/
+├── .claude-plugin/                 — Claude Code plugin manifest
 │   ├── plugin.json
 │   └── marketplace.json
-├── skills/rearchitect/
+├── .codex-plugin/                  — OpenAI Codex plugin manifest
+│   └── plugin.json
+├── skills/rearchitect/             — canonical skill (shared by both hosts)
 │   ├── SKILL.md
 │   └── references/
 │       ├── pattern-matrix.md       — 23 GoF patterns, one trigger each
 │       ├── diagnostic-lenses.md    — SOLID, smell→remedy, leakage tests, depth
 │       └── interface-sketches.md   — how to sketch a refactor's boundary
+├── .agents/skills/rearchitect      — Codex discovery symlink → skills/rearchitect
 └── evals/                          — skill-creator eval set (35 cases, 6 assertions each)
 ```
 
