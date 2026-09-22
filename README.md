@@ -48,4 +48,4 @@ rearchitect/
 
 ## License
 
-MIT
+[MIT](LICENSE.md)
