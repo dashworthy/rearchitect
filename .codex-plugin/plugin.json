@@ -1,0 +1,36 @@
+{
+  "name": "rearchitect",
+  "version": "0.1.0",
+  "description": "Turn a described architectural problem into up to three applicable design patterns, each with an interface sketch of the refactor it would produce.",
+  "author": {
+    "name": "Andrew Leach",
+    "email": "aleach@wastequip.com",
+    "url": "https://wastequip.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "refactoring",
+    "design-patterns",
+    "gang-of-four",
+    "solid",
+    "interface-design",
+    "code-quality"
+  ],
+  "skills": "skills",
+  "interface": {
+    "displayName": "Rearchitect",
+    "shortDescription": "Architectural problem → up to 3 design-pattern options with interface sketches.",
+    "longDescription": "Describe code that is painful to change, extend, test, or reason about. Rearchitect diagnoses the smell against SOLID and a smell catalog, names only the Gang-of-Four patterns whose triggers genuinely fire (up to three), sketches what each refactor's boundary would look like in your language, and recommends one — with 'leave it as it is' always on the table. It proposes options to accept or reject; it does not implement the refactor, audit a whole codebase, or force a pattern where none fits.",
+    "developerName": "Andrew Leach",
+    "category": "developer-tools",
+    "capabilities": [
+      "skills"
+    ],
+    "defaultPrompt": [
+      "This class keeps growing and every feature touches it — how should I restructure it?",
+      "Every new type means editing the same switch in five files. What pattern fits?",
+      "I keep copy-pasting this call sequence everywhere — is there a cleaner structure?"
+    ]
+  }
+}

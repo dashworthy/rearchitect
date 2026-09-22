@@ -34,6 +34,8 @@ rearchitect/
 ├── .claude-plugin/                 — Claude Code plugin manifest
 │   ├── plugin.json
 │   └── marketplace.json
+├── .codex-plugin/                  — OpenAI Codex plugin manifest
+│   └── plugin.json                 (discovers skills in skills/)
 ├── skills/rearchitect/             — canonical skill (single source of truth)
 │   ├── SKILL.md
 │   └── references/
@@ -58,12 +60,15 @@ discovered under `skills/rearchitect/` and triggers on the phrasings above (or i
 
 ### OpenAI Codex
 
-Codex discovers Agent Skills under `.agents/skills/` on its scan path. Two ways to install:
+Two ways to install — as a **plugin** (recommended) or as a **bare skill**.
 
-- **Per-repo:** run Codex from inside a project that contains this repo (or vendor it in) — Codex
-  scans `$CWD/.agents/skills` and `$REPO_ROOT/.agents/skills`, so `rearchitect` is picked up
-  automatically.
-- **Global:** symlink it onto your personal path once:
+- **As a plugin:** the `.codex-plugin/plugin.json` manifest makes this repo a Codex plugin; its
+  `skills` field points at `skills/`, so `rearchitect` is bundled and discovered when the plugin is
+  installed. (Manifest path is `.codex-plugin/plugin.json` per the openai/codex spec.)
+- **As a bare skill, per-repo:** run Codex from inside a project containing this repo — Codex scans
+  `$CWD/.agents/skills` and `$REPO_ROOT/.agents/skills`, so the `.agents/skills/rearchitect` symlink
+  is picked up automatically.
+- **As a bare skill, global:** symlink it onto your personal path once:
   ```sh
   mkdir -p ~/.agents/skills
   ln -s /absolute/path/to/rearchitect/skills/rearchitect ~/.agents/skills/rearchitect
