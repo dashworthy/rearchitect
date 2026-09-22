@@ -1,0 +1,329 @@
+{
+  "skill_name": "rearchitect",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In our reporting service there's a spot where we do `if ($fmt === 'pdf') { $e = new PdfExporter(); } elseif ($fmt === 'csv') { $e = new CsvExporter(); } elseif ($fmt === 'xlsx') { ... }` and this exact block is copied in three places. Every time product asks for a new export format I have to hunt down all three call sites and add another branch. The call sites shouldn't need to know the concrete exporter classes. How should I restructure this?",
+      "expected_output": "Diagnoses hard-coded concrete instantiation / OCP violation and surfaces Factory Method as the candidate, with an interface sketch moving the choice of concrete exporter off the call sites.",
+      "expectations": [
+        "Diagnoses the problem as a hard-coded concrete dependency / open-closed violation before naming a pattern",
+        "Surfaces Factory Method as a candidate pattern",
+        "Includes an interface sketch (types or method signatures) showing where the choice of concrete exporter moves to",
+        "States what the refactor buys (new format without editing call sites) and what it costs",
+        "Presents at most three candidates and keeps a plain-shape / leave-as-is option on the table"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We support a 'light' and a 'dark' UI theme. Each theme has its own Button, Panel, Checkbox and Menu widgets, and they have to match — you must never render a dark Button inside a light Panel, but right now nothing stops a caller from `new LightButton()` next to `new DarkPanel()` and we've shipped mismatched screens twice. I want callers to get a whole matched set of widgets for the current theme and not be able to mix families. What's the right structure?",
+      "expected_output": "Diagnoses the need for mutually-consistent families and surfaces Abstract Factory, with a sketch of a per-theme factory producing the matched widget set.",
+      "expectations": [
+        "Identifies the requirement as producing families of related objects that must stay consistent",
+        "Surfaces Abstract Factory as a candidate pattern",
+        "Includes an interface sketch showing a per-theme factory that yields a matched set of widgets",
+        "Does not merely recommend Factory Method (single product) as the primary answer for this family requirement",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Constructing an `HttpRequest` in our client is out of control — the constructor takes 11 positional arguments (url, method, headers, body, timeout, retries, followRedirects, auth, proxy, tlsVerify, cacheKey) and most are optional. Call sites are unreadable walls of `null, null, true, null` and people keep passing timeout where retries goes. I don't want a pattern for the sake of it, but this construction is genuinely painful. Ideas?",
+      "expected_output": "Diagnoses long parameter list / telescoping construction and surfaces Builder, with a fluent/step-wise sketch; may also mention a parameter object.",
+      "expectations": [
+        "Diagnoses a long parameter list / telescoping constructor that is easy to hold wrong",
+        "Surfaces Builder as a candidate pattern",
+        "Includes an interface sketch of step-wise or fluent construction",
+        "States the misuse-resistance benefit (can no longer swap positional args) as what it buys",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "In our simulation, spawning a new `Enemy` means parsing its config file, loading its sprite sheet, and running an expensive stat-derivation pass — about 40ms each. During a wave we spawn hundreds of identical enemies of a few types. Reconstructing each one from scratch is killing our frame budget, but they all start from the same fully-configured template. How should I restructure the creation so I'm not paying that cost every spawn?",
+      "expected_output": "Diagnoses expensive construction with an already-configured template and surfaces Prototype (cloning), with a sketch of a clone-based creation path.",
+      "expectations": [
+        "Diagnoses that building a fresh instance is expensive and a configured template already exists",
+        "Surfaces Prototype (cloning an existing configured instance) as a candidate pattern",
+        "Includes an interface sketch showing a clone/copy-based creation path",
+        "States what cloning buys (skip the expensive rebuild) and its cost",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "We have a database connection pool. Right now different modules each construct their own `ConnectionPool`, and we've discovered we're opening way more connections than the DB allows because there are actually five pools live at once — there must be exactly one for the process or the connection accounting is simply wrong. What's the cleanest way to guarantee a single shared one?",
+      "expected_output": "Recognizes a genuine single-instance-correctness requirement (Singleton) but flags it as a smell and prefers passing one shared instance explicitly; sketch reflects that caution.",
+      "expectations": [
+        "Recognizes the requirement that exactly one instance must exist for correctness (the Singleton trigger)",
+        "Flags Singleton as often a smell and offers passing one shared instance explicitly (dependency injection) as the preferred plain alternative",
+        "Includes an interface sketch for the recommended approach",
+        "Does not recommend Singleton uncritically as the only option",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We're integrating a third-party payments SDK, `AcmePay`, whose client exposes `charge(amountCents, cardToken, idemKey)` and returns its own `AcmeResult`. Our whole codebase already talks to a `PaymentGateway` interface with `pay(Money $amount, PaymentMethod $method): Receipt`. I can't change the AcmePay SDK and I don't want to change every caller. How do I make AcmePay usable through our existing interface?",
+      "expected_output": "Diagnoses two incompatible interfaces neither side controls and surfaces Adapter, with a sketch wrapping AcmePay behind PaymentGateway.",
+      "expectations": [
+        "Identifies the problem as two incompatible interfaces where neither side can change",
+        "Surfaces Adapter as a candidate pattern",
+        "Includes an interface sketch of a class implementing PaymentGateway and translating to the AcmePay SDK",
+        "States that it lets callers stay unchanged as what it buys",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Our drawing library has shapes (Circle, Rectangle, Polygon, Path) and rendering backends (SVG, Canvas, PDF). Today every combination is its own class: SvgCircle, CanvasCircle, PdfCircle, SvgRectangle, and so on — 4 shapes times 3 backends is 12 classes, and we're about to add a WebGL backend AND a Star shape, which turns into a mess. The shape kind and the render target really vary independently. How do I stop this class explosion?",
+      "expected_output": "Diagnoses two independent axes of variation causing M×N explosion and surfaces Bridge, with a sketch separating shape from renderer.",
+      "expectations": [
+        "Identifies two independent axes of variation causing an M×N class explosion",
+        "Surfaces Bridge as a candidate pattern",
+        "Includes an interface sketch separating the shape abstraction from the renderer implementation so each varies alone",
+        "Distinguishes this from Decorator (which stacks responsibilities) if both are mentioned",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "We model an org chart where a node is either a single Employee or a Department that contains Employees and sub-Departments. Right now everything that walks the tree — headcount, total salary, rendering — is riddled with `if (node instanceof Department) { recurse over children } else { handle leaf }`. I'd like callers to treat one employee and a whole department subtree the same way through one interface. What structure gives me that?",
+      "expected_output": "Diagnoses a part-whole hierarchy needing uniform treatment and surfaces Composite, with a sketch of a common component interface for leaf and group.",
+      "expectations": [
+        "Identifies a part-whole hierarchy where callers want to treat a leaf and a tree uniformly",
+        "Surfaces Composite as a candidate pattern",
+        "Includes an interface sketch of a common component interface implemented by both leaf and container",
+        "Shows the leaf-vs-container instanceof checks collapsing behind the interface",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "We have a `DataStream` and callers can want it compressed, encrypted, buffered, or rate-limited — in any combination and, worse, the combination is decided at runtime from user settings. We started making subclasses like `CompressedEncryptedStream`, `BufferedCompressedStream`... and it's obviously not going to scale to every combination. I need to layer these behaviors on at runtime without a subclass per combo, keeping the stream interface the same. Ideas?",
+      "expected_output": "Diagnoses runtime combinations of responsibilities causing subclass explosion and surfaces Decorator, with a wrapping sketch preserving the stream interface.",
+      "expectations": [
+        "Identifies the need to add responsibilities in runtime combinations without a subclass per combination",
+        "Surfaces Decorator as a candidate pattern",
+        "Includes an interface sketch showing wrappers that implement the same stream interface and stack",
+        "Distinguishes this from Bridge (independent axes) if both are mentioned",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Converting an uploaded video in our app requires calling six subsystems in a precise order: probe the container, pick a codec, demux, transcode, remux, then write metadata. Every caller that wants 'convert this file to mp4' has to know and reproduce that whole dance, and we've had bugs where someone remuxed before transcoding. Callers really just want one 'convert' call. How do I hide all this orchestration?",
+      "expected_output": "Diagnoses required call order / repeated choreography over a complex subsystem and surfaces Facade, with a one-entry-point sketch.",
+      "expectations": [
+        "Diagnoses a complex subsystem with a required call order that callers must currently reproduce",
+        "Surfaces Facade as a candidate pattern",
+        "Includes an interface sketch of a single narrow entry point hiding the multi-step orchestration",
+        "Notes that this pulls complexity down behind the interface (a deepening move)",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Our map renderer draws forests — we can have well over a million `Tree` objects on screen, and each currently holds its mesh, texture, and species data plus its x/y/scale. Profiling shows memory is the wall we're hitting; there are only about 20 distinct species, so the mesh/texture/species data is identical across huge numbers of trees and only the position differs. How can I stop duplicating all that shared state per instance?",
+      "expected_output": "Diagnoses a very large object count where memory bites and most state is shared/intrinsic, surfaces Flyweight, with a sketch pooling intrinsic state.",
+      "expectations": [
+        "Identifies a very large number of objects where memory footprint actually bites and most state is shared/intrinsic",
+        "Surfaces Flyweight as a candidate pattern",
+        "Includes an interface sketch separating shared intrinsic state (pooled) from per-instance extrinsic state (position)",
+        "States the memory saving as what it buys and the added indirection as a cost",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "We show high-res product images. Loading the full image object is expensive (network fetch + decode), and most of them are never scrolled into view. I want callers to keep using the same `Image` interface (`width()`, `height()`, `draw()`), but the real image should only be fetched and decoded the first time it's actually drawn, and cached after. I don't want callers to know about any of that laziness. What's the pattern?",
+      "expected_output": "Diagnoses controlled/lazy access behind the same interface and surfaces Proxy, with a lazy-loading/caching stand-in sketch.",
+      "expectations": [
+        "Identifies the need to control access (lazy load + cache) behind the same interface the object already presents",
+        "Surfaces Proxy as a candidate pattern",
+        "Includes an interface sketch of a stand-in implementing the Image interface that defers the real fetch/decode",
+        "Distinguishes Proxy (controls access) from Decorator (adds behavior) if both are raised",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Incoming API requests need to pass through a sequence of checks: rate limiting, authentication, schema validation, then feature-flag gating. Right now it's one 400-line function with nested ifs, and reordering or inserting a step means surgery in the middle of it. Each step should be able to either handle/reject the request or pass it along, and the caller sending the request shouldn't know which step ultimately dealt with it. How should I structure this pipeline?",
+      "expected_output": "Diagnoses a runtime handler pipeline where the sender must not know the handler and surfaces Chain of Responsibility, with a handler-link sketch.",
+      "expectations": [
+        "Identifies a pipeline of handlers each able to handle or pass on, where the sender must not know which handles it",
+        "Surfaces Chain of Responsibility as a candidate pattern",
+        "Includes an interface sketch of chained handlers with a handle-or-pass contract",
+        "Shows how a step can be inserted or reordered without editing the others",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Our drawing editor needs undo/redo, and we also want to record a macro of user actions and replay it later, plus queue actions to run on a background thread. Today actions are just method calls scattered through the UI handlers, so there's no way to reverse one or replay a sequence. I need to treat each operation as something I can store, undo, and replay. What structure fits?",
+      "expected_output": "Diagnoses the need to reify operations as first-class objects (undo/queue/log/replay) and surfaces Command, with an execute/undo sketch.",
+      "expectations": [
+        "Identifies the need to treat an operation as a first-class object to queue, log, replay, or undo",
+        "Surfaces Command as a candidate pattern",
+        "Includes an interface sketch with execute (and undo) on a command object",
+        "Connects the sketch to the undo/redo and replay requirements",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "We have a custom `RingBuffer` collection with a wrap-around internal array and head/tail indices. Callers currently reach into `buffer.items` and do their own index math to loop over the live elements, which means every consumer knows about the wrap-around and they break whenever we tweak the internals. I want people to be able to iterate the elements in order without knowing anything about the underlying array layout. How do I expose traversal cleanly?",
+      "expected_output": "Diagnoses traversal that leaks internal representation and surfaces Iterator, with a sketch exposing traversal without the internal array.",
+      "expectations": [
+        "Identifies that callers currently traverse by reaching into the internal representation",
+        "Surfaces Iterator as a candidate pattern",
+        "Includes an interface sketch exposing ordered traversal that hides the wrap-around array layout",
+        "Frames the leak (callers depending on internals) as the defect being fixed",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Our booking form has a bunch of interdependent widgets: choosing a country filters the state dropdown, checking 'business account' reveals a tax-id field, picking a date range enables/disables the promo code box, and so on. Each widget currently holds references to the others and pokes them directly, so it's a tangled web — adding one dependency means touching several widgets, and it's impossible to reuse a widget alone. How do I untangle this coordination?",
+      "expected_output": "Diagnoses tangled many-to-many coupling and surfaces Mediator, with a sketch routing widget interaction through a mediator.",
+      "expectations": [
+        "Identifies a tangled many-to-many web of objects coordinating directly",
+        "Surfaces Mediator as a candidate pattern",
+        "Includes an interface sketch routing interaction through a mediator so each widget knows only the mediator",
+        "States reduced coupling / reusability of a widget in isolation as what it buys",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "The text editor needs undo. I can capture the document state at each step, but I don't want to expose the editor's internal representation (the piece table, cursor stack, selection ranges) just so some history manager can save and restore it — those internals should stay private. I need to snapshot and later restore state without leaking how state is stored. What's the right approach?",
+      "expected_output": "Diagnoses capture/restore of internal state without exposing it and surfaces Memento, with an opaque-snapshot sketch.",
+      "expectations": [
+        "Identifies the need to capture and restore internal state without exposing that state through the public interface",
+        "Surfaces Memento as a candidate pattern",
+        "Includes an interface sketch of an opaque snapshot the editor produces and consumes, kept private from the history manager",
+        "Distinguishes it from Command-based undo if both are mentioned",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "We have a `SpreadsheetModel`. When a cell value changes, a bunch of things need to react: dependent formula cells recompute, the on-screen grid repaints, a chart panel updates, and an autosave marker flips. Right now `setCellValue` hard-codes calls to all of them, so the model imports the chart and the autosave modules, and every time we add a new reactive feature we edit the model. The model shouldn't know its consumers. How do I decouple this?",
+      "expected_output": "Diagnoses a subject hard-coding an open-ended set of consumers and surfaces Observer, with a subscribe/notify sketch.",
+      "expectations": [
+        "Identifies that a subject hard-codes notifications to an open-ended set of dependents it should not know the concrete types of",
+        "Surfaces Observer as a candidate pattern",
+        "Includes an interface sketch with subscription and a notify mechanism where the model does not depend on concrete consumers",
+        "States decoupling the model from its consumers as what it buys",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "An `Order` moves through statuses: cart, placed, paid, packed, shipped, delivered, cancelled. Every method — `cancel()`, `addItem()`, `refund()`, `ship()` — starts with a big `switch ($this->status)` deciding what's allowed and what the transition is, and these switches are duplicated across a dozen methods. Adding a 'returned' status means editing every one of them and we keep missing one. The behavior really is driven by the current status. How do I get rid of this switch sprawl?",
+      "expected_output": "Diagnoses behavior varying by internal status with recurring switch sprawl and surfaces State, with a per-state-object sketch.",
+      "expectations": [
+        "Identifies behavior that changes with an internal status field, expressed as duplicated switch statements (OCP violation)",
+        "Surfaces State as a candidate pattern",
+        "Includes an interface sketch where each status becomes its own object owning its allowed transitions",
+        "Distinguishes State (behavior by internal state, object transitions) from Strategy (caller-selected algorithm) if both are mentioned",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "Our checkout computes shipping cost with a growing `if` ladder: flat rate, weight-based, distance-based, and now a carrier-API-based quote. The ladder lives inside `Checkout::total()` and every new shipping method means reopening that method and adding a branch. The methods are interchangeable — pick one per order — and we'd like to A/B test new ones. How should I structure the shipping calculation so adding one doesn't mean editing checkout?",
+      "expected_output": "Diagnoses interchangeable algorithms selected by a conditional and surfaces Strategy, with a pluggable-policy sketch.",
+      "expectations": [
+        "Identifies interchangeable algorithms currently selected by a conditional that reopens for each new case",
+        "Surfaces Strategy as a candidate pattern",
+        "Includes an interface sketch of a pluggable shipping-cost policy injected into checkout",
+        "Distinguishes Strategy (caller/config-selected policy) from State (internal-state-driven) if both are mentioned",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "We generate three kinds of reports (PDF, HTML, CSV) and the overall flow is identical for all of them: load data, filter by permissions, sort, render header, render rows, render footer, finalize. Only the render steps differ per format. Right now each report class copy-pastes the whole flow, so when we fixed the permission-filtering step we had to fix it in three places and missed one. I want the shared skeleton defined once with only the differing steps overridden. What fits?",
+      "expected_output": "Diagnoses a shared algorithm skeleton with varying steps and surfaces Template Method, with a fixed-skeleton/overridable-steps sketch.",
+      "expectations": [
+        "Identifies a shared algorithm skeleton where only specific steps differ per variant",
+        "Surfaces Template Method as a candidate pattern",
+        "Includes an interface sketch fixing the skeleton once with overridable steps for the differing parts",
+        "Connects it to the duplicated-flow / fix-in-three-places problem",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "We have an AST for a small config language — node types like Literal, BinaryOp, FunctionCall, VarRef — and the set of node types is stable, we almost never add one. But we keep adding operations over the tree: pretty-print, type-check, evaluate, now a linter and a cost-estimator. Each new operation means adding a method to every single node class, touching all of them. I'd rather add an operation in one place without editing the node classes. How?",
+      "expected_output": "Diagnoses adding operations over a stable object structure and surfaces Visitor, with a visitor-interface sketch.",
+      "expectations": [
+        "Identifies the need to add new operations across a stable object structure without editing its classes each time",
+        "Surfaces Visitor as a candidate pattern",
+        "Includes an interface sketch of a visitor gathering an operation in one place with accept methods on nodes",
+        "Notes that Visitor fits because the node structure is stable (and would be a poor fit if node types changed often)",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Our product-search feature lets users type filter expressions like `price < 50 AND (color = 'red' OR rating >= 4)`. Today we parse these with a pile of regexes and nested string splitting that's become unmaintainable and can't handle nesting correctly. The grammar is small and well-defined. I want to represent a parsed expression as something I can evaluate against a product. What structure handles a small grammar like this?",
+      "expected_output": "Diagnoses a small well-defined grammar to evaluate and surfaces Interpreter (as an expression tree), while noting a real parser may be preferable at scale.",
+      "expectations": [
+        "Identifies a small, well-defined grammar whose sentences could be represented as an object/expression tree",
+        "Surfaces Interpreter as a candidate pattern",
+        "Includes an interface sketch of expression nodes with an evaluate/interpret method against a context",
+        "Notes the caveat that a real parser/parser-generator is preferable at any real scale",
+        "Presents at most three candidates and keeps a plain-shape option on the table"
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "I inherited this helper: `class UserIdHasher { public function hash(string $id): string { return sha1($id); } }`. It's used in exactly one place, `AuditLog::record()`, which calls `$this->hasher->hash($userId)`. Something about having a whole injected class wrapping a single `sha1` call feels off to me but I can't articulate why. Should I turn this into some kind of strategy or factory to make it cleaner?",
+      "expected_output": "Recognizes over-engineering / single-use wrapper; recommends inlining (no pattern), explicitly declining to add Strategy/Factory.",
+      "expectations": [
+        "Diagnoses a single-use wrapper / needless indirection that hides no decision",
+        "Recommends inlining or removing the wrapper rather than adding a pattern",
+        "Explicitly declines to introduce Strategy or Factory here and explains why they would add cost without benefit",
+        "Keeps the plain-shape / leave-as-is (here: simplify) recommendation primary",
+        "Does not pad the answer with three patterns that do not fit"
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "We have one big `UserService` interface with 14 methods: some for authentication (login, logout, verifyToken), some for profile CRUD (getProfile, updateProfile), some for admin stuff (banUser, grantRole, auditTrail). The problem is every consumer depends on the whole interface even though the login screen only uses the auth methods and the admin panel only uses the admin ones — and our test mocks have to stub all 14 methods every time. How should I restructure this interface?",
+      "expected_output": "Diagnoses an interface-segregation violation; recommends splitting into role interfaces (a plain decomposition, not a GoF pattern).",
+      "expectations": [
+        "Diagnoses an Interface Segregation violation where each consumer uses only a subset of the interface",
+        "Recommends splitting into role interfaces grouped by consumer need",
+        "States that this is a plain decomposition that no GoF pattern owns (does not force a pattern name onto it)",
+        "Includes an interface sketch of the segregated role interfaces",
+        "Keeps the plain-split recommendation primary rather than proposing an ill-fitting pattern"
+      ]
+    },
+    {
+      "id": 26,
+      "prompt": "Almost every call to our `sendEmail($to, $subject, $body, $from, $replyTo, $priority, $trackOpens, $sandbox)` passes the exact same last four arguments — `'no-reply@acme.com', null, 'normal', true` — because 95% of our emails are ordinary transactional ones. Only the marketing service ever needs different values. The call sites are noisy with these repeated defaults. Is there a pattern to clean this up?",
+      "expected_output": "Diagnoses a long parameter list where callers repeat the same values; recommends defaulting the common case (a deepening move), not a GoF pattern.",
+      "expectations": [
+        "Diagnoses that nearly every call site repeats the same values for optional parameters",
+        "Recommends defaulting the common case with an escape hatch for the few callers that differ (a deepening move)",
+        "Frames this as a plain move rather than forcing a GoF pattern, though it may mention Builder as an alternative for genuinely step-wise construction",
+        "Includes a sketch of the defaulted signature and how the marketing caller overrides",
+        "Keeps the plain-move recommendation primary"
+      ]
+    },
+    {
+      "id": 27,
+      "prompt": "This `Money` value object bugs me a little. It's `final class Money { public function __construct(public readonly int $cents, public readonly string $currency) {} public function add(Money $o): Money {...} public function format(): string {...} }`. It's used everywhere. I feel like I should be applying some design pattern to it to make the architecture more sophisticated, but I'm not sure which. What would you do?",
+      "expected_output": "Finds no trigger firing; recommends leaving the well-shaped value object as is; declines to apply a pattern for sophistication's sake.",
+      "expectations": [
+        "Runs the diagnostic lenses and finds no pattern trigger genuinely fires",
+        "Recommends leaving the value object as it is (plain shape / no change)",
+        "Explicitly declines to add a pattern purely for sophistication, explaining that a pattern with no trigger makes the code worse",
+        "Does not fabricate three candidate patterns to fill the output",
+        "Keeps the leave-as-is recommendation primary and honest"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "rearchitect",
+  "description": "Turn a described architectural problem into up to three applicable design patterns, each with an interface sketch of the refactor it would produce — diagnose the smell, name the patterns whose triggers actually fire, and show what the boundary looks like after.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Andrew Leach",
+    "email": "aleach@wastequip.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "refactoring",
+    "design-patterns",
+    "gang-of-four",
+    "solid",
+    "interface-design",
+    "code-quality"
+  ]
+}

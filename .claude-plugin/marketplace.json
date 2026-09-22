@@ -1,0 +1,20 @@
+{
+  "name": "rearchitect",
+  "description": "rearchitect plugin marketplace",
+  "owner": {
+    "name": "Andrew Leach",
+    "email": "aleach@wastequip.com"
+  },
+  "plugins": [
+    {
+      "name": "rearchitect",
+      "description": "Turn a described architectural problem into up to three applicable design patterns, each with an interface sketch of the refactor.",
+      "version": "0.1.0",
+      "source": ".",
+      "author": {
+        "name": "Andrew Leach",
+        "email": "aleach@wastequip.com"
+      }
+    }
+  ]
+}
