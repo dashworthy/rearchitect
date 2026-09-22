@@ -1,8 +1,8 @@
 # rearchitect
 
-A Claude Code plugin that turns a **described architectural problem** into **up to three applicable
-design patterns**, each with an **interface sketch** of the refactor it would produce — then a
-recommendation.
+A single Agent Skill — packaged for **both Claude Code and OpenAI Codex** — that turns a
+**described architectural problem** into **up to three applicable design patterns**, each with an
+**interface sketch** of the refactor it would produce, then a recommendation.
 
 You describe code that's painful to change, extend, test, or reason about. `rearchitect` diagnoses
 the smell against SOLID and a smell catalog, names only the Gang-of-Four patterns whose triggers
@@ -31,17 +31,56 @@ to test/extend/change".
 
 ```
 rearchitect/
-├── .claude-plugin/
+├── .claude-plugin/                 — Claude Code plugin manifest
 │   ├── plugin.json
 │   └── marketplace.json
-├── skills/rearchitect/
+├── skills/rearchitect/             — canonical skill (single source of truth)
 │   ├── SKILL.md
 │   └── references/
 │       ├── pattern-matrix.md       — 23 GoF patterns, one trigger each
 │       ├── diagnostic-lenses.md    — SOLID, smell→remedy, leakage tests, depth
 │       └── interface-sketches.md   — how to sketch a refactor's boundary
-└── evals/                          — skill-creator eval set (one case per pattern + negatives)
+├── .agents/skills/rearchitect ->   — Codex discovery path (symlink → skills/rearchitect)
+│      ../../skills/rearchitect      so both hosts share one SKILL.md
+└── evals/                          — skill-creator eval set (35 cases, 6 assertions each)
 ```
+
+The `SKILL.md` frontmatter (`name` + `description`) is the format both hosts share, so one file
+drives both. The `.agents/skills/rearchitect` symlink means there is no duplicated content to keep
+in sync — edit `skills/rearchitect/` and both hosts see it.
+
+## Using it
+
+### Claude Code
+
+Add the repo as a plugin marketplace, or point your plugin config at this directory. The skill is
+discovered under `skills/rearchitect/` and triggers on the phrasings above (or invoke it by name).
+
+### OpenAI Codex
+
+Codex discovers Agent Skills under `.agents/skills/` on its scan path. Two ways to install:
+
+- **Per-repo:** run Codex from inside a project that contains this repo (or vendor it in) — Codex
+  scans `$CWD/.agents/skills` and `$REPO_ROOT/.agents/skills`, so `rearchitect` is picked up
+  automatically.
+- **Global:** symlink it onto your personal path once:
+  ```sh
+  mkdir -p ~/.agents/skills
+  ln -s /absolute/path/to/rearchitect/skills/rearchitect ~/.agents/skills/rearchitect
+  ```
+
+Then invoke it explicitly with `$rearchitect`, or let Codex select it implicitly when your prompt
+matches the description. Disable it locally via `~/.codex/config.toml`:
+
+```toml
+[[skills.config]]
+path = "/absolute/path/to/rearchitect/skills/rearchitect/SKILL.md"
+enabled = false
+```
+
+> Note: the `.agents/skills/rearchitect` entry is a git symlink. On Windows, enable symlink support
+> (`git config core.symlinks true`) or copy `skills/rearchitect/` to `.agents/skills/rearchitect/`
+> instead.
 
 ## Provenance
 
