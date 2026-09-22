@@ -43,12 +43,6 @@ rearchitect/
 └── evals/                          — skill-creator eval set (35 cases, 6 assertions each)
 ```
 
-## Provenance
-
-The diagnostic vocabulary and pattern catalog are adapted from the `using-codebase-design` skill in
-the `engineering` plugin, reshaped from "shape one boundary well" into "diagnose a problem and
-propose refactor options."
-
 ## License
 
 MIT
