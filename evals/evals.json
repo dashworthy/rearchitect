@@ -10,7 +10,8 @@
         "Surfaces Factory Method as a candidate pattern",
         "Includes an interface sketch (types or method signatures) showing where the choice of concrete exporter moves to",
         "States what the refactor buys (new format without editing call sites) and what it costs",
-        "Presents at most three candidates and keeps a plain-shape / leave-as-is option on the table"
+        "Presents at most three candidates and keeps a plain-shape / leave-as-is option on the table",
+        "Recommends introducing a factory behind a shared Exporter interface (Factory Method or a registry-backed factory) as the PRIMARY fix \u2014 not a different or ill-fitting pattern."
       ]
     },
     {
@@ -22,7 +23,8 @@
         "Surfaces Abstract Factory as a candidate pattern",
         "Includes an interface sketch showing a per-theme factory that yields a matched set of widgets",
         "Does not merely recommend Factory Method (single product) as the primary answer for this family requirement",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Abstract Factory (a per-theme factory yielding a matched widget set) as the PRIMARY fix; does not settle on Factory Method as the primary answer."
       ]
     },
     {
@@ -34,7 +36,8 @@
         "Surfaces Builder as a candidate pattern",
         "Includes an interface sketch of step-wise or fluent construction",
         "States the misuse-resistance benefit (can no longer swap positional args) as what it buys",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Builder OR a parameter object with defaults as the PRIMARY fix, honoring the 'no pattern for its own sake' constraint \u2014 not an unrelated pattern."
       ]
     },
     {
@@ -46,7 +49,8 @@
         "Surfaces Prototype (cloning an existing configured instance) as a candidate pattern",
         "Includes an interface sketch showing a clone/copy-based creation path",
         "States what cloning buys (skip the expensive rebuild) and its cost",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends cloning a pre-built template (Prototype) and/or a Flyweight shared-type split as the PRIMARY fix \u2014 not an unrelated pattern."
       ]
     },
     {
@@ -58,7 +62,8 @@
         "Flags Singleton as often a smell and offers passing one shared instance explicitly (dependency injection) as the preferred plain alternative",
         "Includes an interface sketch for the recommended approach",
         "Does not recommend Singleton uncritically as the only option",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends dependency injection / passing one explicitly shared instance as the PRIMARY fix, with Singleton flagged as a smell rather than recommended outright."
       ]
     },
     {
@@ -70,7 +75,8 @@
         "Surfaces Adapter as a candidate pattern",
         "Includes an interface sketch of a class implementing PaymentGateway and translating to the AcmePay SDK",
         "States that it lets callers stay unchanged as what it buys",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Adapter (wrapping AcmePay behind PaymentGateway) as the PRIMARY fix."
       ]
     },
     {
@@ -82,7 +88,8 @@
         "Surfaces Bridge as a candidate pattern",
         "Includes an interface sketch separating the shape abstraction from the renderer implementation so each varies alone",
         "Distinguishes this from Decorator (which stacks responsibilities) if both are mentioned",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Bridge (separating the shape and renderer axes) as the PRIMARY fix, justified by both axes growing \u2014 not Decorator or per-combination classes."
       ]
     },
     {
@@ -94,7 +101,8 @@
         "Surfaces Composite as a candidate pattern",
         "Includes an interface sketch of a common component interface implemented by both leaf and container",
         "Shows the leaf-vs-container instanceof checks collapsing behind the interface",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Composite (a shared component interface for leaf and container) as the PRIMARY fix."
       ]
     },
     {
@@ -106,7 +114,8 @@
         "Surfaces Decorator as a candidate pattern",
         "Includes an interface sketch showing wrappers that implement the same stream interface and stack",
         "Distinguishes this from Bridge (independent axes) if both are mentioned",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Decorator (stackable wrappers preserving the stream interface) as the PRIMARY fix \u2014 not Bridge."
       ]
     },
     {
@@ -118,7 +127,8 @@
         "Surfaces Facade as a candidate pattern",
         "Includes an interface sketch of a single narrow entry point hiding the multi-step orchestration",
         "Notes that this pulls complexity down behind the interface (a deepening move)",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Facade (a single narrow entry point) \u2014 or the equivalent plain single-entry function \u2014 as the PRIMARY fix."
       ]
     },
     {
@@ -130,7 +140,8 @@
         "Surfaces Flyweight as a candidate pattern",
         "Includes an interface sketch separating shared intrinsic state (pooled) from per-instance extrinsic state (position)",
         "States the memory saving as what it buys and the added indirection as a cost",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Flyweight (pooling intrinsic state, position kept extrinsic) as the PRIMARY fix, justified by the ~20-vs-millions ratio."
       ]
     },
     {
@@ -142,7 +153,8 @@
         "Surfaces Proxy as a candidate pattern",
         "Includes an interface sketch of a stand-in implementing the Image interface that defers the real fetch/decode",
         "Distinguishes Proxy (controls access) from Decorator (adds behavior) if both are raised",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Proxy (a lazy-loading/caching stand-in behind the Image interface) as the PRIMARY fix \u2014 not Decorator."
       ]
     },
     {
@@ -154,7 +166,8 @@
         "Surfaces Chain of Responsibility as a candidate pattern",
         "Includes an interface sketch of chained handlers with a handle-or-pass contract",
         "Shows how a step can be inserted or reordered without editing the others",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends a handle-or-pass pipeline \u2014 Chain of Responsibility or a plain list-driven pipeline runner \u2014 as the PRIMARY fix; does not recommend an ill-fitting pattern."
       ]
     },
     {
@@ -166,7 +179,8 @@
         "Surfaces Command as a candidate pattern",
         "Includes an interface sketch with execute (and undo) on a command object",
         "Connects the sketch to the undo/redo and replay requirements",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Command (execute/undo operation objects, optionally with Composite/Memento) as the PRIMARY fix."
       ]
     },
     {
@@ -178,7 +192,8 @@
         "Surfaces Iterator as a candidate pattern",
         "Includes an interface sketch exposing ordered traversal that hides the wrap-around array layout",
         "Frames the leak (callers depending on internals) as the defect being fixed",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Iterator (ordered traversal hiding the internal array) as the PRIMARY fix."
       ]
     },
     {
@@ -190,7 +205,8 @@
         "Surfaces Mediator as a candidate pattern",
         "Includes an interface sketch routing interaction through a mediator so each widget knows only the mediator",
         "States reduced coupling / reusability of a widget in isolation as what it buys",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Mediator (routing interaction through one mediator) as the PRIMARY fix, justified by the growing rule set \u2014 not merely Observer."
       ]
     },
     {
@@ -202,7 +218,8 @@
         "Surfaces Memento as a candidate pattern",
         "Includes an interface sketch of an opaque snapshot the editor produces and consumes, kept private from the history manager",
         "Distinguishes it from Command-based undo if both are mentioned",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Memento (an opaque snapshot kept private from the caretaker) as the PRIMARY fix \u2014 not Command."
       ]
     },
     {
@@ -214,7 +231,8 @@
         "Surfaces Observer as a candidate pattern",
         "Includes an interface sketch with subscription and a notify mechanism where the model does not depend on concrete consumers",
         "States decoupling the model from its consumers as what it buys",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Observer (subscribe/notify, model unaware of concrete consumers) as the PRIMARY fix, and does NOT over-engineer to a generic event bus."
       ]
     },
     {
@@ -226,7 +244,8 @@
         "Surfaces State as a candidate pattern",
         "Includes an interface sketch where each status becomes its own object owning its allowed transitions",
         "Distinguishes State (behavior by internal state, object transitions) from Strategy (caller-selected algorithm) if both are mentioned",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends State (a class per status owning its transitions) as the PRIMARY fix \u2014 not Strategy; a transition-table alternative is acceptable as a secondary."
       ]
     },
     {
@@ -238,7 +257,8 @@
         "Surfaces Strategy as a candidate pattern",
         "Includes an interface sketch of a pluggable shipping-cost policy injected into checkout",
         "Distinguishes Strategy (caller/config-selected policy) from State (internal-state-driven) if both are mentioned",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Strategy (a pluggable shipping-cost policy) as the PRIMARY fix \u2014 not State."
       ]
     },
     {
@@ -250,7 +270,8 @@
         "Surfaces Template Method as a candidate pattern",
         "Includes an interface sketch fixing the skeleton once with overridable steps for the differing parts",
         "Connects it to the duplicated-flow / fix-in-three-places problem",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Template Method (fixed skeleton, overridable steps) as the PRIMARY fix; Strategy is acceptable only as an explicit secondary alternative."
       ]
     },
     {
@@ -262,7 +283,8 @@
         "Surfaces Visitor as a candidate pattern",
         "Includes an interface sketch of a visitor gathering an operation in one place with accept methods on nodes",
         "Notes that Visitor fits because the node structure is stable (and would be a poor fit if node types changed often)",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Visitor (operations gathered in one place over the stable node structure) as the PRIMARY fix, justified by node types being stable."
       ]
     },
     {
@@ -274,7 +296,8 @@
         "Surfaces Interpreter as a candidate pattern",
         "Includes an interface sketch of expression nodes with an evaluate/interpret method against a context",
         "Notes the caveat that a real parser/parser-generator is preferable at any real scale",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends an Interpreter/expression tree as the PRIMARY fix for representation+evaluation, with an explicit caveat that a real parser (not Interpreter) should handle parsing."
       ]
     },
     {
@@ -286,7 +309,8 @@
         "Recommends inlining or removing the wrapper rather than adding a pattern",
         "Explicitly declines to introduce Strategy or Factory here and explains why they would add cost without benefit",
         "Keeps the plain-shape / leave-as-is (here: simplify) recommendation primary",
-        "Does not pad the answer with three patterns that do not fit"
+        "Does not pad the answer with three patterns that do not fit",
+        "Recommends inlining/removing the single-use wrapper (no pattern) as the PRIMARY recommendation, explicitly declining Strategy and Factory."
       ]
     },
     {
@@ -298,7 +322,8 @@
         "Recommends splitting into role interfaces grouped by consumer need",
         "States that this is a plain decomposition that no GoF pattern owns (does not force a pattern name onto it)",
         "Includes an interface sketch of the segregated role interfaces",
-        "Keeps the plain-split recommendation primary rather than proposing an ill-fitting pattern"
+        "Keeps the plain-split recommendation primary rather than proposing an ill-fitting pattern",
+        "Recommends splitting into role interfaces (a plain ISP decomposition, no GoF pattern) as the PRIMARY recommendation."
       ]
     },
     {
@@ -310,7 +335,8 @@
         "Recommends defaulting the common case with an escape hatch for the few callers that differ (a deepening move)",
         "Frames this as a plain move rather than forcing a GoF pattern, though it may mention Builder as an alternative for genuinely step-wise construction",
         "Includes a sketch of the defaulted signature and how the marketing caller overrides",
-        "Keeps the plain-move recommendation primary"
+        "Keeps the plain-move recommendation primary",
+        "Recommends defaulting the common case with an escape hatch (a plain deepening move, not a GoF pattern) as the PRIMARY recommendation."
       ]
     },
     {
@@ -322,7 +348,8 @@
         "Recommends leaving the value object as it is (plain shape / no change)",
         "Explicitly declines to add a pattern purely for sophistication, explaining that a pattern with no trigger makes the code worse",
         "Does not fabricate three candidate patterns to fill the output",
-        "Keeps the leave-as-is recommendation primary and honest"
+        "Keeps the leave-as-is recommendation primary and honest",
+        "Recommends leaving the value object as-is (no pattern) as the PRIMARY recommendation, explicitly declining to add a pattern for sophistication."
       ]
     },
     {
@@ -334,7 +361,8 @@
         "Surfaces Decorator as a way to stack the cross-cutting behaviors composably, with an interface sketch preserving the InventoryClient interface",
         "For each candidate, states an honest trade-off tied to this problem (Decorator stacks behaviors vs Proxy controls access/caching vs Strategy swaps one policy)",
         "Recommends one as primary with reasoning tied to the per-call-site combination requirement, keeping the alternatives real",
-        "Presents at most three candidates and keeps a plain-shape / leave-as-is option on the table"
+        "Presents at most three candidates and keeps a plain-shape / leave-as-is option on the table",
+        "Recommends Decorator as the PRIMARY structure (folding in Proxy for caching and Strategy for tunable policy), justified by the per-call-site combination requirement \u2014 rather than picking a single pattern that ignores composition."
       ]
     },
     {
@@ -346,7 +374,8 @@
         "Names the trade-off tied to this problem (invertible operations favor Command; lossy operations favor Memento snapshots; memory cost vs redo)",
         "Includes an interface sketch for each candidate",
         "Recommends a coherent approach (possibly a hybrid: a Command backbone with Memento inside lossy commands) with reasoning",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends a hybrid as the PRIMARY approach \u2014 a Command backbone with Memento used inside the lossy commands \u2014 rather than Command alone or Memento alone."
       ]
     },
     {
@@ -358,7 +387,8 @@
         "Maps facets to candidates: channel variation -> Strategy; open-ended reactions to an event -> Observer; shared send skeleton with a varying transport step -> Template Method",
         "Includes an interface sketch for the recommended structure(s)",
         "Presents the candidates as addressing different facets (not competing for the same seam) with honest trade-offs",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends a COMBINATION mapped to facets as the PRIMARY structure (Observer for event reactions + Strategy or Template Method for the send skeleton) rather than forcing one pattern over all three facets."
       ]
     },
     {
@@ -370,7 +400,8 @@
         "Includes an interface sketch for the recommended structure",
         "Names the relationship between the candidates (Composite gives the tree; Interpreter is a Composite tree with an evaluate method; Visitor adds operations without editing rule classes)",
         "Notes the tension: adding leaf rule types often vs adding operations often changes which pattern fits (Visitor is a poor fit if leaf types keep churning)",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Composite with operations-on-nodes (an Interpreter-style tree) as the PRIMARY structure and does NOT recommend Visitor as primary, correctly because leaf rule types keep churning (Visitor reserved for if the axes flip)."
       ]
     },
     {
@@ -382,7 +413,8 @@
         "Surfaces Iterator applied to the non-obvious case of API pagination \u2014 a lazy sequence that hides page-fetching behind ordinary iteration",
         "Includes an interface sketch exposing element-by-element (or page-by-page) iteration that hides the nextPageToken protocol",
         "States what it buys (callers stop knowing the paging protocol; the loop is written once) and its cost (lazy fetch, error handling mid-iteration)",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Iterator (a lazy sequence hiding the nextPageToken protocol) as the PRIMARY fix over the copy-pasted paging loops."
       ]
     },
     {
@@ -394,7 +426,8 @@
         "Surfaces Decorator and/or Proxy applied to this non-obvious case (repository cross-cutting concerns), distinguishing them (Decorator adds behavior; Proxy controls access such as caching)",
         "Includes an interface sketch of wrapper(s) implementing the same ProductRepository interface",
         "Notes that config-toggled composition means assembling the wrapper stack in one place (wiring/factory)",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends wrapping the repository via Decorator and/or Proxy assembled by a config-driven factory as the PRIMARY fix, without changing the repository class or its call sites."
       ]
     },
     {
@@ -406,7 +439,8 @@
         "Surfaces Strategy (each rule as a swappable validator) and/or Composite (combine rules into AllOf/AnyOf trees) applied to the non-obvious case of validation",
         "Includes an interface sketch of a rule/validator interface and how rules compose and are reused",
         "States what it buys (add or reuse a rule without editing the big function; share rules across forms) and its cost",
-        "Presents at most three candidates and keeps a plain-shape option on the table"
+        "Presents at most three candidates and keeps a plain-shape option on the table",
+        "Recommends Strategy plus Composite (a specification-style rule tree) as the PRIMARY fix for composable, reusable validation."
       ]
     },
     {
@@ -418,7 +452,8 @@
         "Surfaces Builder applied to the non-obvious case of test data construction (a test data builder / object mother) with sensible defaults and only the relevant fields overridden per test",
         "Includes an interface sketch showing a fluent/defaulted builder and a before/after test setup",
         "States what it buys (constructor changes touch one place; tests state only what matters) and its cost",
-        "Presents at most three candidates and keeps a plain-shape option (e.g. a simple factory helper) on the table"
+        "Presents at most three candidates and keeps a plain-shape option (e.g. a simple factory helper) on the table",
+        "Recommends a test-data Builder (defaulted, override-only-what-matters) as the PRIMARY fix; a plain factory helper is acceptable as the lighter alternative."
       ]
     }
   ]
