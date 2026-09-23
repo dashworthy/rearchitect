@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-label="rearchitect — design patterns for the problem you describe">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#0EA5E9" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0B1120" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0 L0 0 0 48" fill="none" stroke="#1E293B" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="400" fill="#0B1120"/>
+  <rect width="1200" height="400" fill="url(#grid)" opacity="0.5"/>
+  <rect width="1200" height="400" fill="url(#glow)"/>
+  <!-- spine -->
+  <line x1="866" y1="150" x2="866" y2="278" stroke="#94A3B8" stroke-width="2.5" opacity="0.5"/>
+  <!-- fixed steps -->
+  <g fill="#0B1120" stroke="#94A3B8" stroke-width="2.5" opacity="0.65">
+    <rect x="884" y="150" width="132" height="26" rx="6"/>
+    <rect x="884" y="188" width="132" height="26" rx="6"/>
+    <rect x="884" y="264" width="132" height="26" rx="6"/>
+  </g>
+  <g stroke="#94A3B8" stroke-width="2" opacity="0.45">
+    <line x1="866" y1="163" x2="884" y2="163"/>
+    <line x1="866" y1="201" x2="884" y2="201"/>
+    <line x1="866" y1="239" x2="884" y2="239"/>
+    <line x1="866" y1="277" x2="884" y2="277"/>
+  </g>
+  <!-- overridable hook (accent, dashed) -->
+  <rect x="884" y="226" width="132" height="26" rx="6" fill="#0EA5E9" fill-opacity="0.08" stroke="url(#accent)" stroke-width="3" stroke-dasharray="6 5"/>
+  <circle cx="900" cy="239" r="4" fill="#6EE7B7"/>
+  <!-- wordmark -->
+  <text x="72" y="255" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="100" font-weight="800" letter-spacing="-0.04em" fill="url(#accent)">rearchitect</text>
+  <text x="76" y="296" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#94A3B8">Design patterns for the problem you describe.</text>
+  <!-- crafted-by mark -->
+  <text x="1180" y="344" text-anchor="end" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="9" font-weight="800" font-style="italic" letter-spacing="0.02em" fill="#94A3B8">CRAFTED BY</text>
+  <text x="1180" y="362" text-anchor="end" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="20" font-weight="900" font-style="italic" letter-spacing="-0.07em"><tspan fill="#F1F5F9">DASH</tspan><tspan fill="#CBD5E1">WORTHY</tspan></text>
+</svg>

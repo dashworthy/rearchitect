@@ -1,3 +1,5 @@
+![rearchitect — design patterns for the problem you describe](art/banner.svg)
+
 # rearchitect
 
 A Claude Code plugin that turns a **described architectural problem** into **up to three applicable
